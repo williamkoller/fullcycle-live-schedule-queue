@@ -1,0 +1,9 @@
+GET http://api_node:3001/tweets
+
+###
+POST http://api_node:3001/tweets
+Content-Type: application/json
+
+{
+  "text": "conteudo do tweet 123"
+}
