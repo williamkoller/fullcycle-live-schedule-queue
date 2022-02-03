@@ -7,6 +7,13 @@ type EnvironmentType = {
   defaultStrategy: string;
   property: string;
   session: string;
+  host: string;
+  username: String;
+  password: String;
+  database: String;
+  portPostgres: number;
+  hostRedis: string;
+  portRedis: number;
 };
 
 export const environments = (): EnvironmentType => {
@@ -19,6 +26,13 @@ export const environments = (): EnvironmentType => {
     defaultStrategy: process.env.DEFAULT_STRATEGY,
     property: process.env.PROPERTY_USER,
     session: process.env.SESSION,
+    host: process.env.POSTGRES_HOST,
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DATABASE,
+    portPostgres: +process.env.POSTGRES_PORT,
+    hostRedis: process.env.HOST_REDIS,
+    portRedis: +process.env.PORT_REDIS,
   };
 };
 

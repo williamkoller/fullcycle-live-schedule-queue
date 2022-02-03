@@ -2,7 +2,9 @@ import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { Interval } from '@nestjs/schedule';
 import { InjectModel } from '@nestjs/sequelize';
 import { Cache } from 'cache-manager';
-import { Tweet } from '../../entities/tweet.entity';
+import { Tweet } from '@/modules/tweets/entities/tweet.entity';
+import { Queue } from 'bull'
+import { InjectQueue } from '@nestjs/bull'
 
 @Injectable()
 export class TweetsCountService {
@@ -14,6 +16,8 @@ export class TweetsCountService {
     private readonly tweetsRepository: typeof Tweet,
     @Inject(CACHE_MANAGER)
     private readonly cacheManager: Cache,
+    @InjectQueue('emails')
+    private readonly emailsQueue: Queue
   ) {}
   @Interval(5000)
   async countTweets() {
@@ -37,5 +41,6 @@ export class TweetsCountService {
     }
 
     this.logger.log(`found ${this.limit} tweets`);
+    this.emailsQueue.add({ tweets: countTweets.map((t) => t.toJSON())})
   }
 }

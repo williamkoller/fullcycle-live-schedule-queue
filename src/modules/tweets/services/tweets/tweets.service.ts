@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateTweetDto } from '../../dto/create-tweet.dto';
-import { UpdateTweetDto } from '../../dto/update-tweet.dto';
-import { Tweet } from '../../entities/tweet.entity';
+import { CreateTweetDto } from '@/modules/tweets/dto/create-tweet.dto';
+import { UpdateTweetDto } from '@/modules/tweets/dto/update-tweet.dto';
+import { Tweet } from '@/modules/tweets/entities/tweet.entity';
 
 @Injectable()
 export class TweetsService {

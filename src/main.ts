@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = app.get<ConfigService>(ConfigService);
+  logger.log(`${JSON.stringify(config)}`)
   const port = config.get<string>('port');
   const nodeEnv = config.get<string>('nodeEnv');
 
