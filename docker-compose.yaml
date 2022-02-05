@@ -53,6 +53,8 @@ services:
     hostname: ${HOST_REDIS}
     ports:
       - ${PORT_REDIS}:${PORT_REDIS}
+    networks:
+      - webnet
 
 volumes:
   db_data:
