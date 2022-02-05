@@ -1,4 +1,5 @@
-version: '3.8'  
+version: '3.5'
+
 services:
 
   api:
@@ -6,6 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile.node
     container_name: api_node
+    labels:
+      com.docker.compose.project: schedule-queue
     entrypoint: sh -c "npm install && npm run start:dev"
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
@@ -16,7 +19,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     networks:
-      - webnet
+      - schedule_queue
     depends_on:
       - db
       - redis
@@ -25,6 +28,8 @@ services:
   db:
     image: postgres:${POSTGRES_VERSION}
     container_name: api_db
+    labels:
+      com.docker.compose.project: schedule-queue
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -36,29 +41,34 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
-      - webnet
+      - schedule_queue
 
   nginx:
     build: 
       context: .
       dockerfile: Dockerfile.nginx
     container_name: api_nginx
+    labels:
+      com.docker.compose.project: schedule-queue
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
     networks:
-      - webnet
+      - schedule_queue
   
   redis:
     image: redis:${REDIS_VERSION}
     container_name: redis
+    labels:
+      com.docker.compose.project: schedule-queue
     hostname: ${HOST_REDIS}
     ports:
       - ${PORT_REDIS}:${PORT_REDIS}
     networks:
-      - webnet
+      - schedule_queue
 
 volumes:
   db_data:
 
 networks:
-  webnet:
+  schedule_queue:
+    name: shedule-queue
